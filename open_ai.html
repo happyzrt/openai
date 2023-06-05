@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>open_ai</title>
+<script type="text/javascript">
+var ws = new WebSocket("ws://47.91.26.5:5757/openai");
+ws.onopen = function()
+{
+};
+                
+ws.onmessage = function (evt) 
+{ 
+    var received_msg = evt.data;
+    document.getElementById("answer").innerHTML=received_msg;
+};
+function send_msg()
+{
+    ws.send(document.getElementById("question").value);
+};
+</script>
+</head>
+<body>
+<input type="text" id="question">
+<button onClick="send_msg()">ask</button>
+<p id="answer">---</p>
+</body>
+</html>
