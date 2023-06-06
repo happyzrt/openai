@@ -9,6 +9,8 @@ import (
 "github.com/tidwall/gjson"
 )
 
+var html_data []byte
+
 var upgrader = websocket.Upgrader{
     ReadBufferSize:  1024,
     WriteBufferSize: 409600,
@@ -71,10 +73,16 @@ func openai(w http.ResponseWriter, r *http.Request) {
     }
 }
 
+func home(w http.ResponseWriter, r *http.Request) {
+    w.Write(html_data)
+}
+
 func main() {
     // res := get_answer_from_openai("who are you?")
 	// fmt.Println(res)
     // return
+    html_data, _ = ioutil.ReadFile("open_ai.html")
     http.HandleFunc("/openai", openai)
+    http.HandleFunc("/", home)
     http.ListenAndServe(":5757", nil)
 }
